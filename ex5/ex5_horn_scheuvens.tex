@@ -46,6 +46,7 @@
 \newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
 \newcommand{\gramint}{\int_{-1}^1}
 \newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
 
 
 \begin{document}
@@ -155,6 +156,7 @@ Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with
   }
 \end{enumerate}
 
+
 \section*{Exercise 4 (Power and Taylor Series)}
 
 
@@ -187,10 +189,30 @@ Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with
        $$=\frac{1}{\sqrt{3}} = r$$
     }
   \item[b)]{
+    \begin{align*}
+      f(x) &= \epix sin(x)\\
+      f'(x) &= \epix (cos(x) - sin(x))\\
+      f''(x) &= 2\epix cos(x)\\
+      f''(x) &= 2\epix (sin(x) + cos(x))\\
+      f^{iv}(x) &= -4\epix sin(x)\\
+    \end{align*}
+
+    \begin{align*}
+      T_3(x,\pi) &= \sum_{k=0}^3 \frac{f^{(k)}(\pi)}{k!}(x-\pi)^k\\
+                 &= \frac{e^0 sin(\pi)}{0!}(x-\pi)^0 + \frac{e^0 (cos(\pi) - sin(\pi))}{1!}(x-\pi)^1 + \frac{2e^0 cos(\pi)}{2!}(x-\pi)^2 + \frac{2e^0 (cos(\pi) - sin(\pi))}{3!}(x-\pi)^3\\
+                 &= \frac{0}{0!}1 + \frac{ (1 - 0)}{1}(x-\pi)^1 + \frac{2\cdot 1}{2}(x-\pi)^2 + \frac{2 (1 - 0)}{6}(x-\pi)^3\\
+                 &= (x-\pi)^1 + (x-\pi)^2 + \frac{1}{3}(x-\pi)^3\\
+    \end{align*}
+    \begin{align*}
+      R_3(x,\pi) &= \frac{f^{(4)}(\xi)}{4!}(x-pi)^4\\
+                 &= \frac{8e^{\pi-\xi}sin(\xi)}{4!}(x-\pi)^4\\
+                 &= \frac{e^{\pi-\xi}sin(\xi)}{3}(x-\pi)^4\\
+    \end{align*}
+    Where $e^{\pi-\xi}$ is at most $e^\pi$ for $\xi = 0$ and $sin(\xi)$ is maximally $1$ for $\xi = \frac{\pi}{2}$ yielding an upper bound on the error as $\frac{e^pi}{3}(x-\pi)^4$.
+
     }
   \item[c)]{
-    }
-  \item[d)]{
+      Since the denominator of the Lagrange error terms is factorial, thus growing faster than the at most exponential remaining terms, the relative error approaches zero, converging to the original function and therefore the Taylor series.
     }
 \end{enumerate}
 
