@@ -1,0 +1,197 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+Justify all your claims.
+\section*{Exercise 1 (Recursive Sequences)}
+\begin{enumerate}
+\item[a)]{
+  Let $(a_n)n\in N$ be a sequence in $\mathbb{R}$. Prove that if $a_n$ is monotone increasing and has an upper bound, then it converges to its supremum.
+  }
+\item[b)]{
+    Prove that the recursive sequence $a_{n+1} = \sqrt{a_n + 2}$ with $a_n = 0$ converges and determine its limit.
+  }
+\end{enumerate}
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+    Let $U$ be some upper bound such that $a_n \leq a_{n+1} \leq U$.
+  It follows that that $|U-a_n| \geq |U - a_{n+1}|$ and therefore $\exists U' \leq U$ such that for every $\epsilon > 0$ $|S-a_n| < \epsilon$. If it weren't the case, then there would be a lesser bound which satisfies this, but by construction this cannot happen, as we would've chosen this as $U'$ instead.
+  }
+\item[b)]{
+    The sequence can easily be shown to be monotonically increasing:
+    The base case is satisfied as $a_0 = 0 < a_1 = sqrt{2}$ and the derivative of $\sqrt{n+2}$ is positive ($\frac{1}{2\sqrt{x+2}}$).
+    Since we know from a) this implies a limit exists, for sufficiently large $n$, it holds that $\underset{n\rightarrow \infty}{lim} a_{n+1} = \underset{n\rightarrow \infty}{lim} a_{n+2}$.
+    \begin{align*}
+      \limn a_n &= \limn \sqrt{a_n+2}\\
+      \limn a_n^2 &= \limn a_n+2\\
+      \limn a_n^2 -a_n -2 &= 0\\
+    \end{align*}
+    This has Roots $\frac{1}{2} +- \frac{3}{2} = 2, -1$.
+    We discard the negative root and obtain $L = 2$.
+
+
+  }
+
+\end{enumerate}
+
+\section*{Exercise 2 (Continuity)}
+\begin{enumerate}
+\item[a)]{
+    Prove that every Lipschitz continous function is uniformly continous.
+  }
+\item[b)]{
+    Prove that $g: x \mapsto x^2$ is not uniformly continous.
+  }
+\item[c)]{
+    Prove that $h: x \mapsto \sqrt{x}$ is uniformly continous but not Lipschitz continous.
+  }
+\end{enumerate}
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+    Since $d(f(x),f(y)) \leq L \cdot d(x,y)$ from Lipschitz continuity and we require $that  \exists \delta = d(x,y)$ such that $d(f(x),f(y)) < \epsilon$, we can choose $\delta$ as $\frac{\epsilon}{L}$. Then:
+    $$d(f(x), f(x+\delta)) < L \cdot \delta = L \frac{\epsilon}{L} = \epsilon$$
+
+  }
+\item[b)]{
+    For any $\delta$,
+    \begin{align*}
+      g(x) - g(x + \delta) &= x^2 - x^2 + 2x\delta + \delta^2\\
+                           &= 2x\delta + \delta^2\\
+    \end{align*}
+    Since this is dependent on x on a term that dominates in the limit, for large x we cannot choose $\delta$ appropriately to get this distance arbitrarily small.
+  }
+\item[c)]{
+    $h$ is Lipschitz continous as:
+      $$h(x) - h(x + \delta) = \sqrt{x} - \sqrt{x+\delta}$$
+
+      $$\underset{x\rightarrow \infty}{lim} \sqrt{x} - \sqrt{x+\delta} = 0$$
+      However as $h'(x) = \frac{1}{2\sqrt{x}}$, $\underset{x\rightarrow 0}{lim} \; h'(x) = \infty$, thus $\nexists L$.
+  }
+
+\end{enumerate}
+\section*{Exercise 3 (Uniform Convergence)}
+\begin{enumerate}
+\item[a)]{
+    Analyze whether $f_n: x\mapsto \frac{1}{n}sin(nx)$ and $g: x \mapsto x + \frac{x}{n}cos(x)$ converge. If so, state limit and prove whether convergence is uniform.
+  }
+\item[b)]{
+    Consider a sequence of functions $f_n: \mathcal{D} \rightarrow \mathbb{R}$ on a finite set $\mathcal{D}$ that converges pointwise. Prove that $f_n$ converges uniformly.
+  }
+Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with the same $L > 0$. Assume that this sequence converges pointwise.
+\item[c)]{
+    Prove that $f$ is also Lipschitz continous with same $L$.
+  }
+\item[d)]{
+    Prove that $f_n$ converges uniformly to $f$.
+  }
+\end{enumerate}
+
+
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+  }
+\item[b)]{
+  }
+\item[c)]{
+  }
+\item[d)]{
+  }
+\end{enumerate}
+
+\section*{Exercise 4 (Power and Taylor Series)}
+
+
+\begin{enumerate}
+\item[a)]{
+    Determine the radius of convergence of:
+    $$\sum_{j=1}^{\infty} \frac{j^2}{2^j}x^j \text{ and }\sum_{j=1}^{\infty} 3^j {x^j}^2$$
+  }
+\item[b)]{
+    Compute the Taylor polynomial of $f: x \mapsto e^{\pi -x} sin(x)$ with $a=0$ of degree $3$ and the corresponding Lagrange remainder.
+  }
+\item[c)]{
+    Prove that $f$ from b) is equal to its Taylor series.
+  }
+\end{enumerate}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+       $$\underset{j\rightarrow \infty}{lim} \frac{\frac{j^2}{2^j}}{\frac{(j+1)^2}{2^{j+1}}}$$
+       $$=\underset{j\rightarrow \infty}{lim} \frac{2^j 2 \frac{j^2}{2^j}}{j^2 + 2j + 1}$$
+       $$=\underset{j\rightarrow \infty}{lim} \frac{2 j^2}{j^2 + 2j + 1}$$
+       $$\approx \underset{j\rightarrow \infty}{lim} \frac{2 j^2}{j^2} = 2 = r$$
+
+       Second series:
+       $$\sum_{j=1}^{\infty} 3^j x^{2j}$$
+       $$=\sum_{i=1}^{\infty} 3^{i/2} x^i$$
+       $$\underset{i\rightarrow \infty}{lim} \frac{3^{i/2}}{3^{(i+1)/2}}$$
+       $$=\underset{i\rightarrow \infty}{lim} \frac{\sqrt{3^i}}{\sqrt{3}\sqrt{3^i}}$$
+       $$=\frac{1}{\sqrt{3}} = r$$
+    }
+  \item[b)]{
+    }
+  \item[c)]{
+    }
+  \item[d)]{
+    }
+\end{enumerate}
+
+\end{document}
