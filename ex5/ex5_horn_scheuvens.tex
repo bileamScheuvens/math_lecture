@@ -70,8 +70,8 @@ Justify all your claims.
 \subsection*{Solution}
 \begin{enumerate}
 \item[a)]{
-    Let $U$ be some upper bound such that $a_n \leq a_{n+1} \leq U$.
-  It follows that that $|U-a_n| \geq |U - a_{n+1}|$ and therefore $\exists U' \leq U$ such that for every $\epsilon > 0$ $|S-a_n| < \epsilon$. If it weren't the case, then there would be a lesser bound which satisfies this, but by construction this cannot happen, as we would've chosen this as $U'$ instead.
+    Let $U$ be some upper bound such that $a_n \leq a_{n+1} \leq U$. If an upper bound exists, then logically a lowest upper bound must exist, which we call supremum.
+  It follows that $|U-a_n| \geq |U - a_{n+1}|$ and therefore $\exists U' \leq U$ such that for every $\epsilon > 0$ $|S-a_n| < \epsilon$. If it weren't the case, then there would be a lesser bound which satisfies this, but by construction this cannot happen, as this bound would then be supremum and we would've chosen it as $U'$ instead.
   }
 \item[b)]{
     The sequence can easily be shown to be monotonically increasing:
@@ -113,16 +113,15 @@ Justify all your claims.
 \item[b)]{
     For any $\delta$,
     \begin{align*}
-      g(x) - g(x + \delta) &= x^2 - x^2 + 2x\delta + \delta^2\\
+      d(g(x), g(x + \delta)) &= x^2 - x^2 + 2x\delta + \delta^2\\
                            &= 2x\delta + \delta^2\\
     \end{align*}
     Since this is dependent on x on a term that dominates in the limit, for large x we cannot choose $\delta$ appropriately to get this distance arbitrarily small.
   }
 \item[c)]{
     $h$ is Lipschitz continous as:
-      $$h(x) - h(x + \delta) = \sqrt{x} - \sqrt{x+\delta}$$
+    FILL IN!
 
-      $$\underset{x\rightarrow \infty}{lim} \sqrt{x} - \sqrt{x+\delta} = 0$$
       However as $h'(x) = \frac{1}{2\sqrt{x}}$, $\underset{x\rightarrow 0}{lim} \; h'(x) = \infty$, thus $\nexists L$.
   }
 
@@ -215,9 +214,9 @@ Justify all your claims.
   \item[b)]{
     \begin{align*}
       f(x) &= \epix sin(x)\\
-      f'(x) &= \epix (cos(x) - sin(x))\\
-      f''(x) &= 2\epix cos(x)\\
-      f''(x) &= 2\epix (sin(x) + cos(x))\\
+      f^i(x) &= \epix (cos(x) - sin(x))\\
+      f^{ii}(x) &= 2\epix cos(x)\\
+      f^{iii}(x) &= 2\epix (sin(x) + cos(x))\\
       f^{iv}(x) &= -4\epix sin(x)\\
     \end{align*}
 
@@ -236,6 +235,7 @@ Justify all your claims.
 
     }
   \item[c)]{
+      The taylor series is the taylor polynomial of degree $\infty$.
       Since the denominator of the Lagrange error terms is factorial, thus growing faster than the at most exponential remaining terms, the relative error approaches zero, converging to the original function and therefore the Taylor series.
     }
 \end{enumerate}
