@@ -75,7 +75,8 @@ Justify all your claims.
   }
 \item[b)]{
     The sequence can easily be shown to be monotonically increasing:
-    The base case is satisfied as $a_0 = 0 < a_1 = sqrt{2}$ and the derivative of $\sqrt{n+2}$ is positive ($\frac{1}{2\sqrt{x+2}}$).
+    The base case is satisfied as $a_0 = 0 < a_1 = \sqrt{2}$ and the derivative of $\sqrt{n+2}$ is positive ($\frac{1}{2\sqrt{x+2}}$).
+    Additionally the sequence is bounded since for any $x > 2$, $\sqrt{x+2}< x$. This can be seen for the example $x=4$, since $\sqrt{6} < 4$ violating the proven property of monotonic increase.
     Since we know from a) this implies a limit exists, for sufficiently large $n$, it holds that $\underset{n\rightarrow \infty}{lim} a_{n+1} = \underset{n\rightarrow \infty}{lim} a_{n+2}$.
     \begin{align*}
       \limn a_n &= \limn \sqrt{a_n+2}\\
@@ -134,7 +135,11 @@ Justify all your claims.
 \item[b)]{
     Consider a sequence of functions $f_n: \mathcal{D} \rightarrow \mathbb{R}$ on a finite set $\mathcal{D}$ that converges pointwise. Prove that $f_n$ converges uniformly.
   }
-Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with the same $L > 0$. Assume that this sequence converges pointwise.
+
+
+\vspace{0.5cm}
+  \hspace{-0.8cm}
+  Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with the same $L > 0$. Assume that this sequence converges pointwise.
 \item[c)]{
     Prove that $f$ is also Lipschitz continous with same $L$.
   }
@@ -147,10 +152,29 @@ Consider a sequence of functions $f_n: [a,b]$ which are Lipschitz continous with
 \subsection*{Solution}
 \begin{enumerate}
 \item[a)]{
+    $$\limn \frac{sin(nx)}{n} = 0$$
+    Thus the function sequences converges pointwise to $f(x) = 0$.
+    For uniform convergence we require $|f_n - f| < \epsilon$:
+    $$\limn |\frac{sin(nx)}{n} - 0|$$
+    Since $sin(nx) \leq 1$:
+    $$ \leq \limn |\frac{1}{n}|$$
+    which is $\leq \epsilon$ for $n\geq \epsilon$, proving uniform convergence.
+
+    For the second sequence:
+    $$\limn x + \frac{x cos(x)}{n} = x$$
+    Since the second term tends to 0, while $x$ is unaffected.
+    Investigating uniform convergence:
+    $$\limn |x + \frac{x cos(x)}{n} - x| < \epsilon$$
+    $$\limn |\frac{x cos(x)}{n}| < \epsilon$$
+    Since $cos(x) \leq 1$, $x cos(x) \leq x$ but otherwise unbounded. Therefore for any $n$ we can choose $x > \frac{n\epsilon}{cos(x)}$ to achieve a function value not $\epsilon$ close and the sequence does not converge uniformly.
+
   }
 \item[b)]{
   }
 \item[c)]{
+    Since $f_n$ is Lipschitz continous, for any deviation $\delta$ we know $d(f_n(x), f_n(x+\delta)) \leq L\delta$ for some distance metric $d$ with $d(\delta) = \delta$.
+    Since $f_n$ converges pointwise, $\limn |f_n - f| = 0$.
+    It immediately follows that $d(f(x) - f(x+\delta)) \leq L\delta + 2\cdot 0 = L\delta$, proving Lipschitz continuity.
   }
 \item[d)]{
   }
