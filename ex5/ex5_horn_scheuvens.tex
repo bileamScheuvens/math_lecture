@@ -119,10 +119,22 @@ Justify all your claims.
     Since this is dependent on x on a term that dominates in the limit, for large x we cannot choose $\delta$ appropriately to get this distance arbitrarily small.
   }
 \item[c)]{
-    $h$ is Lipschitz continous as:
-    FILL IN!
+		We first show that $h$ is uniformly continuous. For this we need to show that for every $\epsilon > 0$ there exists a $\delta > 0$, such that for all pairs of points $x, x_0$ with $d(x, x_0)<\delta \rightarrow d(h(x), h(x_0))< \epsilon$. 
 
-      However as $h'(x) = \frac{1}{2\sqrt{x}}$, $\underset{x\rightarrow 0}{lim} \; h'(x) = \infty$, thus $\nexists L$.
+Let us assume that we have a $\epsilon$, then we want:
+$$
+		d(h(x), h(x_0)) <\epsilon \leftrightarrow |\sqrt{x} - \sqrt{x_0}| < \epsilon
+$$
+$$
+		\leftrightarrow x + x_0 -2 \sqrt{x x_0} < \epsilon^2.
+$$
+		Without loss of generality we assume $x_0 = x + \delta$ and therefore $\sqrt{x, x_0} \geq x$. It follows:
+$$
+		x + x + \delta - 2 \sqrt{x x_0} \leq x + x +\delta -2 x = \delta.
+$$
+		Therefore, we can choose $\delta = \sqrt{\epsilon}$ for any points $x, x_0$ and fulfill the defining inequaity for uniform continuity. 
+
+		However $h(x)$ is not Lipschitz Continuous. This can be seen from the derivative  $h'(x) = \frac{1}{2\sqrt{x}}$, $\underset{x\rightarrow 0}{lim} \; h'(x) = \infty$, thus $\nexists L$ around $x=0$. 
   }
 
 \end{enumerate}
@@ -169,6 +181,8 @@ Justify all your claims.
 
   }
 \item[b)]{
+		We show that a sequence of functions that converges pointwise on a finite set also covnerges uniformly. For this we have to find a $N$ for any $\epsilon>0$, such that for any $f_m$ with $m>N$ $d(f_m(x) -f(x)) < \epsilon$. \\
+		From the pointwise convergence we know that for each $\epsilon$ that for every point $x_i$ there exists such an $N_i$ such that it converges pointwise to $f(x)$.. We can now simply choose the largest out of the $N_i$. Then by construction the conditons for converges  are fulfilled for every point $x_i$ in the finite set with the same $N$ and therefore it converges uniformly.  
   }
 \item[c)]{
     Since $f_n$ is Lipschitz continous, for any deviation $\delta$ we know $d(f_n(x), f_n(x+\delta)) \leq L\delta$ for some distance metric $d$ with $d(\delta) = \delta$.
@@ -176,7 +190,28 @@ Justify all your claims.
     It immediately follows that $d(f(x) - f(x+\delta)) \leq L\delta + 2\cdot 0 = L\delta$, proving Lipschitz continuity.
   }
 \item[d)]{
-  }
+		We want to prove that a sequence of functions, that is defined over an interval $a, b$ and is Lipschitz contious with the same Lipschitz constant and pointwise convergent also converges uniformly.
+		This means that for any $\epsilon >0$ there exists a $N$  such that for any $f_m$ with $m>N$   $d(f_m(x), f(x)) < \epsilon$ for all $x$. \\
+		To prove this we first introduce a finite set on the intervall [a, b] with distance $\epsilon$ as $D = \{a, a+\epsilon, a+2\epsilon, ...\}$ and define the functions:
+		$$[f](x) = f([x])$$, where $[x]$ is the closest value in the constructed set $D$ that is smaller or equal to $x$. \\
+
+		Thus when write out the distance between the $f_n$ and $f$ we can introduce zero in terms of these functions $[f](x)$ as:
+		$$
+		d(f_n(x), f(x)) = |(f_n(x) - [f_n](x) + [f_n](x) - [f](x) + [f](x) - f(x) |
+		$$
+	and bound this with the triangle inequality for norms:
+		$$
+		\leq |f_n(x) -  [f_n](x) | + |([f_n](x) - [f](x)| + |[f](x)- f(x)| 
+		$$
+		}
+		We can now use the Lipschitz continuity for $f_n(x)$ as we know that $d(x, [x]) < \epsilon$.
+		$$
+		\leq L \epsilon + d([f_n](x), [f](x)) + L \epsilon = \epsilon (1 + 2 L ). 
+		$$. 
+		As $[f_n](x)$ is defined on a finite set it also converges uniformly. Thus for every $\epsilon'$ we can find an $\epsilon$ defining the finite set and an $N$, such that:
+		$$	d(f_m(x), f(x) \leq 2 L \epsilon + d([f_m], [f]) \leq \epsilon 2L + \epsilon < \epsilon'. $$
+		Importantly, $N$ and $\epsilon$ is independent of $x$ and thererfore the sequence converges uniformly. 
+
 \end{enumerate}
 
 
