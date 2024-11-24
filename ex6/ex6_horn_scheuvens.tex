@@ -1,0 +1,122 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+Justify all your claims.
+\section*{Exercise 1 (Extremal points)}
+Consider the function $f: \mathbb{R}^2 \to \mathbb{R}; (x, y) \mapsto x^3 + 1/3y^3 -12x -y$
+\begin{enumerate}
+\item[a)]{
+$(x, y)$ is an extremal point if $\frac{\partial f}{\partial x}=0$ and $\frac{\partial f}{\partial y} = 0$. \\
+$$\frac{\partial f}{\partial x} = 3 x^2 -12$$
+$$\frac{\partial f}{\partial y} = y^2 -1$$
+
+From this we can get four different extremal points:
+$$(x_1, y_1) = (2, 1)$$
+$$(x_2, y_2) = (-2, 1) $$
+$$(x_3, y_3) = (2, -1) $$
+$$ (x_4, y_4) = (-2, -1) $$
+In order to classify them we need to compute the Hessian: 
+$$
+H = \begin{pmatrix} 6x & 0 \\
+0 & 2y \end{pmatrix}.
+$$
+We directly see that this is diagonal and thus the eigenvalues correspond to the diagonal entriess \\
+We see that  for $(x_1, y_1)$ we have positive eigenvalues and therefore a strict  local minimum. Likewise, for $(x_4, y_4)$ we have negative eigenvalues and therefore a strict local  maximum. For the other two points the Hessian matrix has a negative and a positive eigenvalue and thus it is indefinite and we have two saddle points.}
+\item[b)] {
+(x, y) is a global maximum iff there exists no other $(x', y')$ such that $f(x', y') > f(x, y))$ and likewise for global minimum. \\
+In this case the function has no global maximum or minimum. E.g. $f(x_1, y_1) = 8 + 1/3 -24 -1 = -17.3$, but we find that $f(-3, 0) = -27 < -17.3$. \\
+Similarly, $f(x_4, y_4) = -8 - 1/3 + 24 +1 = 16.67$, but $f(3, 0)= 27 > 16.67 = f(x_4, y_4)$. 
+}
+\item[c)] {
+Consider $g: \mathbb{R}^3 \to \mathbb{R}, (x, y, z) \mapsto \alpha x^2e^y + y^2 e^z + z^2 e^x$, with $\alpha \in \mathbb{R}$. 
+The point $(0, 0, 0)$ is an extremal point (local, minimum, maximum or saddle point) iff the first derivative is zero i.e. $\nabla f = \textbf{0}$.
+$$
+\nabla f = \begin{pmatrix} \alpha 2x e^y + z^2 e^x\\ \alpha x^2 e^y + 2y e^z \\ y^2 e^z + 2z e^x \end{pmatrix}_{(0, 0)}
+$$
+$$
+= \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}
+$$
+To differentiate between the different points we compute the Hessian:
+$$
+H = {\begin{pmatrix}
+\alpha 2 e^y + z^2e^x & \alpha 2x e^y & 2z e^x \\
+\alpha 2x e^y  & x^2 e^y + 2 e^z & 2ye^z \\
+2z e^x & 2y e^z & y^2 e^z + 2 e^x
+\end{pmatrix}}_{(0, 0)}
+$$
+$$
+\begin{pmatrix}
+\alpha 2   &  0& 0  \\
+0  & 2 & 0 \\
+0 & 0 &  2 
+\end{pmatrix}.
+$$
+As this is again a diagonal matrix we can directly read out the eigenvalues from the diagonal entries and as two af them are greater than zero we can only have a local minimum or saddle point. If $\alpha <0$ the matrix is indefinite and we therefore have a saddle point. If $a\geq 0$ we have a local minimum. 
+}
+\end{enumerate}
+\section*{Exercise 2 (Derivatives)}
+
+\begin{enumerate}
+\item[a)]{
+T
+}
+\end{enumerate}
+
+
+\end{document}
