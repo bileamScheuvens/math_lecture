@@ -60,6 +60,7 @@
 Justify all your claims.
 \section*{Exercise 1 (Extremal points)}
 Consider the function $f: \mathbb{R}^2 \to \mathbb{R}; (x, y) \mapsto x^3 + 1/3y^3 -12x -y$
+\subsection*{Solution}
 \begin{enumerate}
 \item[a)]{
 $(x, y)$ is an extremal point if $\frac{\partial f}{\partial x}=0$ and $\frac{\partial f}{\partial y} = 0$. \\
@@ -114,13 +115,35 @@ As this is again a diagonal matrix we can directly read out the eigenvalues from
 
 \begin{enumerate}
 \item[a)]{
-The directional derivatives exist in point $(0, 0, 0)$ iff the $\lim_{x \to 0+} \frac{\partial f}{\partial x}_{y=0} = \lim_{x \to 0-} \frac{\partial f}{\partial x}_{y=0}$
- and likewise for $y$. 
- We therefore bult the two derivatives:
+The partial derivatives exist iff the limit $lim_{(x, y) \to (0, 0)} \frac{\partial f}{\partial x} = \frac{\partial f}{\partial x} (0, 0)$ and likewise for $y$. \\
+To compute the derivative we first compute:
 $$
-\frac{\partial f_+}{\partial x} = 
+\frac{\partial \left(x^2 + y^2\right)^{-1/2}}{\partial x}  = -\frac{1}{2} \frac{2x}{\left(x^2 + y^2\right)^{3/2}} = -\frac{x}{\left(x^2 + y^2\right)^{3/2}}
 $$
+We rename $x_2 = y$ and $\sqrt{x_1^2 + x_2^2} = r$ we can compute the partial derivative: 
+$$
+\frac{\partial f}{\partial x} = -\frac{x^2y}{r^3}sin(1/r) + \frac{y}{r}sin(1/r) -\frac{x^2y}{r^4} cos(1/r)
+$$
+$$
+\frac{y^3}{r^3} sin(1/r) - -\frac{x^2y}{r^4} cos(1/r)
+$$
+We can now approach the point $(0, 0)$ from $(0, \epsilon)$. 
+
+$$
+\lim_{\epsilon \to 0} \frac{\partial f}{\partial x}( 0, \epsilon) = \lim_{\epsilon \to 0} \sin(1/\epsilon^2) - 0.
+$$
+This limit does not exist and therefore also the partial derivative is not continuous.
+As the function is symmetric under exchange of $x \to y$ the same is true for the partial derivative with respect to $y$ and therefore also the total derivative does not exist.}
+\item[b)]{
+$$
+\frac{\partial g}{ \partial x_1} = \frac{3x_1^2x_2}{x_1^4+x_2^2} - \frac{4x_1^6x_2}{(x_1^4 + x^2)^2}
+$$
+$$
+\frac{\partial g}{ \partial x_2} = \frac{x_1^3}{x_1^4+{x_2}^2} - \frac{2x_1^3x_2^2}{(x_1^4 + x^2)^2} 
+$$
+Again the limit does not exist -> Partial derivatives aer not continous and therefore the total derivative does not exist.
 }
+
 \end{enumerate}
 
 \section*{Exercise 3 (Taylor Series)}
@@ -180,7 +203,7 @@ $$
 \sum_{j}A_{nj} x_j + \sum_{j}A^T_{nj} x_j
 \end{pmatrix}
 $$
-where we renamed the $i\to j$ and used that $A_{ij} = $A^T_{ji}$. 
+where we renamed the $i\to j$ and used that $A_{ij} = A^T_{ji}$. 
 But this simply corresponds to $(A+A^t)x$. }
 \item[b)]{
 To minimize with respect to $w$ we first write out the norm squared:
@@ -191,11 +214,32 @@ $$
 $$
 =\frac{1}{n}( w^TX^TXw - w^TX^TY - Y^TXw + Y^TY) + \lambda w^T w = f.
 $$
-Taking the derivative with respect to $w$ we obtain with the results from (a):
+We then take the derivative with respect to $w$ to find the extremal points. With the results from $(a)$ we obtain:
 $$
 \frac{\partial f}{\partial w}=\frac{1}{n}( (X^TX + {(X^TX)}^T) w - 2Y^TX) + \lambda w.
 $$
 Here we also used that we are in $\mathbb{R}$ and thus $w^T X^Ty = y^TXw$. 
+Setting the derivative to zero we find:
+$$
+Y^TX = \left( X^TX + \frac{n}{2}\lambda Id \right) w 
+$$
+$$
+\leftrightarrow w = \left( X^TX + \frac{n}{2}\lambda Id \right)^{-1} Y^TX
+$$}
+\item[c)] {
+$$D \log(\det{X}) = \frac{1}{det(X)} * D det(x)$$
+We can write out the determinant of a matrix in Laplace expansion:
+$$
+\det(X)= \sum_{j=1}^n (-1)^{i+j} X_{ij} M_{ij}
+$$
+and therefore:
+$$
+\frac{\partial \det(X)}{\partial X_{ij}} = (-1)^{i+j} M_{ij} = 1/\det(X) X^{-1}_{ij},
+$$
+where the last step follows from the definition of the inverse of a nonsingular matrix. 
+And finally:
+$$
+D \log(\det{X}) = \frac{1}{\det(X)} * \frac{1}{\det(X)} X^{-1}$$
 }
 \end{enumerate}
 \end{document}
