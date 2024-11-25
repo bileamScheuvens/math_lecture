@@ -114,9 +114,33 @@ As this is again a diagonal matrix we can directly read out the eigenvalues from
 
 \begin{enumerate}
 \item[a)]{
-T
+The directional derivatives exist in point $(0, 0, 0)$ iff the $\lim_{x \to 0+} \frac{\partial f}{\partial x}_{y=0} = \lim_{x \to 0-} \frac{\partial f}{\partial x}_{y=0}$
+ and likewise for $y$. 
+ We therefore bult the two derivatives:
+$$
+\frac{\partial f_+}{\partial x} = 
+$$
 }
 \end{enumerate}
 
+\section*{Exercise 3 (Taylor Series)}
+Given the function $f: \mathbb{R}^2 \to \mathbb{R}; (x_1, x_2) \mapsto \frac{1}{1-x_1-x_2}$ find the Taylor series around point $(0, 0)$ and the set over which it converges. 
+\begin{enumerate}
+\item[Solution]{
+We first note for the derivatives:
+$$
+\frac{\partial f^n}{{\partial x_1}^\alpha{\partial x_2}^{n-\alpha}} = n! \frac{1}{{(1 - x_1 - x_2)}^n}.  
+$$
+This is because the partial derivative in $x_1$ direction is equal to the derivative in $x_2$ direction and each derivative simply multiplies by the power of the denominator and then increases the power of the denominator by one. \\
+For this reason the multivariate Taylor series (around the point $(0, 0)$) can immediately be written out as:
+$$
+T_f = \sum_{n=0}^\infty \sum_{\alpha=0}^n \frac{n!}{\alpha! (n-\alpha)!}x_1^\alpha x_2^{n-\alpha}.
+$$
+This can be rewritten as:
+$$
+T_f = \sum_{n=0}^\infty \sum_{\alpha=0}^n \binom{n}{\alpha} x_1^\alpha x_2^{n-\alpha} = \sum_{n=0}^\infty (x_1 + x_2)^n.
+$$
+This series converges iff $|x_1+x_2| < 1. 
 
+\end{enumerate}
 \end{document}
