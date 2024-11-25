@@ -125,8 +125,7 @@ $$
 
 \section*{Exercise 3 (Taylor Series)}
 Given the function $f: \mathbb{R}^2 \to \mathbb{R}; (x_1, x_2) \mapsto \frac{1}{1-x_1-x_2}$ find the Taylor series around point $(0, 0)$ and the set over which it converges. 
-\begin{enumerate}
-\item[Solution]{
+\subsection*{Solution}
 We first note for the derivatives:
 $$
 \frac{\partial f^n}{{\partial x_1}^\alpha{\partial x_2}^{n-\alpha}} = n! \frac{1}{{(1 - x_1 - x_2)}^n}.  
@@ -140,7 +139,63 @@ This can be rewritten as:
 $$
 T_f = \sum_{n=0}^\infty \sum_{\alpha=0}^n \binom{n}{\alpha} x_1^\alpha x_2^{n-\alpha} = \sum_{n=0}^\infty (x_1 + x_2)^n.
 $$
-This series converges iff $|x_1+x_2| < 1. 
-
+This series is the geometric series and converges iff $|x_1 + x_2| < 1$.  
+\section*{Exercise 4 (Matrix Cookbook)}
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+$$
+\frac{\partial a^tx}{\partial x} = \begin{pmatrix} 
+\frac{\partial a^tx}{\partial x_1} \\
+\frac{\partial a^tx}{\partial x_2}\\
+\frac{\partial a^tx}{\partial x_n}\end{pmatrix}
+$$
+With $a^tx = a_1 x_1 + a_2 x_2 + ... + a_n x_n$ we conclude:
+$$
+\frac{\partial a^tx}{\partial x} = \begin{pmatrix} 
+a_1 \\
+a_2 \\
+a_n\end{pmatrix} = a.
+$$\\
+Secondly, $x^tAx = \sum_{i} x_i \sum_{j} A_ij x_j$ and thus the gradient is:
+$$
+\frac{\partial x^t Ax}{\partial x} = \begin{pmatrix} 
+\frac{\partial x^tAx}{\partial x_1} \\
+\frac{\partial x^tAx}{\partial x_2}\\
+...\\
+\frac{\partial x^tAx}{\partial x_n}\end{pmatrix}
+$$
+$$
+=\begin{pmatrix} 
+\sum_{j}A_{1j} x_j + \sum_{i}A_{i1} x_i \\
+\sum_{j}A_{2j} x_j + \sum_{i}A_{i2} x_i\\
+...\\
+\sum_{j}A_{nj} x_j + \sum_{i}A_{in} x_i\end{pmatrix}
+$$
+$$
+=\begin{pmatrix} 
+\sum_{j}A_{1j} x_j + \sum_{j}A^T_{1j} x_j \\
+\sum_{j}A_{2j} x_j + \sum_{j}A^T_{2j} x_j\\
+...\\
+\sum_{j}A_{nj} x_j + \sum_{j}A^T_{nj} x_j
+\end{pmatrix}
+$$
+where we renamed the $i\to j$ and used that $A_{ij} = $A^T_{ji}$. 
+But this simply corresponds to $(A+A^t)x$. }
+\item[b)]{
+To minimize with respect to $w$ we first write out the norm squared:
+$$
+\frac{1}{n} ||Xw -Y||^2 + \lambda ||w||^2 = 
+\frac{1}{n} (Xw -Y)^T(Xw -Y) + \lambda w^T w
+$$
+$$
+=\frac{1}{n}( w^TX^TXw - w^TX^TY - Y^TXw + Y^TY) + \lambda w^T w = f.
+$$
+Taking the derivative with respect to $w$ we obtain with the results from (a):
+$$
+\frac{\partial f}{\partial w}=\frac{1}{n}( (X^TX + {(X^TX)}^T) w - 2Y^TX) + \lambda w.
+$$
+Here we also used that we are in $\mathbb{R}$ and thus $w^T X^Ty = y^TXw$. 
+}
 \end{enumerate}
 \end{document}
