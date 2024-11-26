@@ -115,8 +115,8 @@ As this is again a diagonal matrix we can directly read out the eigenvalues from
 
 \begin{enumerate}
 \item[a)]{
-The partial derivatives exist iff the limit $lim_{(x, y) \to (0, 0)} \frac{\partial f}{\partial x} = \frac{\partial f}{\partial x} (0, 0)$ and likewise for $y$. \\
-To compute the derivative we first compute:
+The partial derivative with respect to $x$ exists iff the limit $\lim_{\epsilon \to 0} \frac{f(x, y) - f(x+\epsilon, y)}{\epsilon}$ exists (analogous  for derivative to $y$).  
+To compute the derivative for points $(x, y) \neq (0, 0)$ we first compute:
 $$
 \frac{\partial \left(x^2 + y^2\right)^{-1/2}}{\partial x}  = -\frac{1}{2} \frac{2x}{\left(x^2 + y^2\right)^{3/2}} = -\frac{x}{\left(x^2 + y^2\right)^{3/2}}
 $$
@@ -125,23 +125,46 @@ $$
 \frac{\partial f}{\partial x} = -\frac{x^2y}{r^3}sin(1/r) + \frac{y}{r}sin(1/r) -\frac{x^2y}{r^4} cos(1/r)
 $$
 $$
-\frac{y^3}{r^3} sin(1/r) - -\frac{x^2y}{r^4} cos(1/r)
+\frac{y^3}{r^3} sin(1/r) -\frac{x^2y}{r^4} cos(1/r)
 $$
-We can now approach the point $(0, 0)$ from $(0, \epsilon)$. 
-
+From this we see that the derivative exists for all non-zero points. \\
+At zero we can write the limit:
+$$
+\lim_{\epsilon \to 0} \frac{f(\epsilon, 0) - f(0, 0)} {\epsilon} = 0 - 0 = 0.
+$$
+This means the limit is defined and the partial derivative exists for all $(x, y)$. 
+As the function is symmetric under exchange of $x \to y$ the same is true for the partial derivative with respect to $y$.\\
+The total derivative exists iff the partial derivative is continous in all points. Again, the only point we have to check is zero, i.e. we have to check that:
+$lim_{(x, y) \to (0, 0)} \frac{\partial f}{\partial x} = \frac{\partial f}{\partial x} (0, 0)$ (and likewise for $y$).
+We approach the point $(0, 0)$ from $(0, \epsilon)$. 
 $$
 \lim_{\epsilon \to 0} \frac{\partial f}{\partial x}( 0, \epsilon) = \lim_{\epsilon \to 0} \sin(1/\epsilon^2) - 0.
 $$
-This limit does not exist and therefore also the partial derivative is not continuous.
-As the function is symmetric under exchange of $x \to y$ the same is true for the partial derivative with respect to $y$ and therefore also the total derivative does not exist.}
+This limit does not exist, the partial derivative is not continous and therefore the total derivative does not exist.}
 \item[b)]{
+For all non-zero points we directly find the partial derivatives with:
 $$
 \frac{\partial g}{ \partial x_1} = \frac{3x_1^2x_2}{x_1^4+x_2^2} - \frac{4x_1^6x_2}{(x_1^4 + x^2)^2}
 $$
 $$
-\frac{\partial g}{ \partial x_2} = \frac{x_1^3}{x_1^4+{x_2}^2} - \frac{2x_1^3x_2^2}{(x_1^4 + x^2)^2} 
+\frac{\partial g}{ \partial x_2} = \frac{x_1^3}{x_1^4+{x_2}^2} - \frac{2x_1^3x_2^2}{(x_1^4 + x^2)^2}. 
 $$
-Again the limit does not exist -> Partial derivatives aer not continous and therefore the total derivative does not exist.
+For $(x, y)= (0, 0)$ we find the partial derivative by: 
+$$
+\lim_{\epsilon \to 0} \frac{g(\epsilon, 0) - f(0, 0)} {\epsilon} = 0 - 0 = 0
+$$
+and analogously for the limit with respect to small variations in $y$:
+$$
+\lim_{\epsilon \to 0} \frac{g(0, \epsilon) - g(0, 0)} {\epsilon} = 0 - 0 = 0
+$$
+So both partial derivatives exist over the whole domain.
+However, the partial derivatives are again not continous in $(0, 0)$. 
+
+If we take the limit:
+$$
+\lim_{\epsilon \to 0} \frac{\partial g(\epsilon, \epsilon^2)}{\partial x} = \frac{\epsilon^5}{2\epsilon^4} - 4 \frac{\epsilon^8}{4 \epsilon^8} = 0 - 1 = -1 \neq \frac{\partial g}{\partial x} (0, 0) = 0.
+$$
+Therefore, the partial derivative with respect to $x$ is not continuous and thus the total derivative does not exist. 
 }
 
 \end{enumerate}
