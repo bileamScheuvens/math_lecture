@@ -134,13 +134,14 @@ $$
 $$
 This means the limit is defined and the partial derivative exists for all $(x, y)$. 
 As the function is symmetric under exchange of $x \to y$ the same is true for the partial derivative with respect to $y$.\\
-The total derivative exists iff the partial derivative is continous in all points. Again, the only point we have to check is zero, i.e. we have to check that:
+The total derivative exists iff the partial derivative is continuous in all points. Again, the only point we have to check is zero, i.e. we have to check that:
 $lim_{(x, y) \to (0, 0)} \frac{\partial f}{\partial x} = \frac{\partial f}{\partial x} (0, 0)$ (and likewise for $y$).
 We approach the point $(0, 0)$ from $(0, \epsilon)$. 
 $$
 \lim_{\epsilon \to 0} \frac{\partial f}{\partial x}( 0, \epsilon) = \lim_{\epsilon \to 0} \sin(1/\epsilon^2) - 0.
 $$
-This limit does not exist, the partial derivative is not continous and therefore the total derivative does not exist.}
+This limit does not exist, the partial derivative is not continuous and therefore the total derivative does not exist.
+Since both partial derivatives exist, all directional derivatives exist but are also discontinuous at (0,0).}
 \item[b)]{
 For all non-zero points we directly find the partial derivatives with:
 $$
@@ -157,7 +158,7 @@ and analogously for the limit with respect to small variations in $y$:
 $$
 \lim_{\epsilon \to 0} \frac{g(0, \epsilon) - g(0, 0)} {\epsilon} = 0 - 0 = 0
 $$
-So both partial derivatives exist over the whole domain.
+So both partial derivatives, and therefore all directional derivatives exist over the whole domain.
 However, the partial derivatives are again not continous in $(0, 0)$. 
 
 If we take the limit:
