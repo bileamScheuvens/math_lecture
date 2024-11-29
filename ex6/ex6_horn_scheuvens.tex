@@ -251,7 +251,11 @@ $$
 \leftrightarrow w = \left( X^TX + \frac{n}{2}\lambda Id \right)^{-1} Y^TX
 $$}
 \item[c)] {
-$$D \log(\det{X}) = \frac{1}{\det(X)} * D det(x)$$
+We first note that the expression $\log(det(X))$ is only defined for non-singular matrices.
+We then use the chain rule to compute the derivative with respect to X:
+$$D \log(\det{X}) = \frac{1}{\det(X)} * D det(x),$$
+where the first derivative is simply a scalar derivative as $\det(X)$ is scalar.
+$\left(D \det(X)\right)_{ij} = \frac{\partial det(X)}{\partial X_{ij}}$, if all the partial derivatives are continous.
 We can write out the determinant of a matrix in Laplace expansion:
 $$
 \det(X)= \sum_{j=1}^n (-1)^{i+j} X_{ij} M_{ij}
@@ -260,9 +264,14 @@ and therefore:
 $$
 \frac{\partial \det(X)}{\partial X_{ij}} = (-1)^{i+j} M_{ij}
 $$
-Using the definition of the inverse of a non-singular matrix in terms of $M_{ij}$: $A^{-1}_{ji}= \frac{1}{\det(X)} (-1)^{i+j}M_{ij}$ we finally obtain:
+Using the definition of the inverse of a non-singular matrix in terms of $M_{ij}$: $A^{-1}_{ij}= \frac{1}{\det(X)} X^{-1}_{ij}$ we can rewrite this as: 
 $$
-D \log(\det{X}) = \frac{1}{\det(X)} \cdot \det(X) \left({X^T}\right)^{-1} = \left({X^T}\right)^{-1} $$
+\frac{\partial \det(X)}{\partial X_{ij}} = \det(X) X^{-1}_{ji},
+$$
+which is continous. 
+We thus finally obtain:
+$$
+D \log(\det{X}) = \frac{1}{\det(X)} \cdot \det(X) \left(X^T)\right)^{-1} =\left(X^T)\right)^{-1}  $$
 }
 \end{enumerate}
 \end{document}
