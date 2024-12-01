@@ -1,0 +1,178 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+Justify all your claims.
+\section*{Exercise 1 (Netwon Method vs. Gradient Descent)}
+
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+    $$\nabla \frac{1}{2} x^t Qx - b^t x = Qx - b \overset{!}{=} 0$$
+    $$ \Rightarrow Qx = b$$
+    Divide by $Q$, given that $Q$ is symmetric and PD and therefore invertible.
+    $$ x = Q^{-1}b$$
+    This is a minimum and therefore the optimal solution to the problem, if the Hessian is positive definite.
+    $$\nabla^2 \frac{1}{2} x^t Qx - b^t x = Q$$
+    Since we know $Q$ to be PD, $x^* = Q^{-1}b$
+  }
+
+\item[b)] {
+  }
+\item[c)] {
+    $$x_{k+1} = x_k - Q^{-1}\nabla (\frac{1}{2} x_k^t Qx - b^t x_k)$$
+  $$x_{k+1} = x_k - Q^{-1}(Qx_k - b)$$
+  $$x_{k+1} = x_k - Q^{-1}Qx_k + Q^{-1}b$$
+  $$x_{k+1} = x_k - Ix_k + Q^{-1}b$$
+  $$x_{k+1} = Q^{-1}b$$
+  $$x^* = Q^{-1}b$$
+}
+\end{enumerate}
+\section*{Exercise 2 (Convexity and Continuity)}
+
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+    Imagine y to be any point between x and z, analogous to how continuity is defined in general.
+    We know that:
+    $$f(tx + (1-t)z) < tf(x) + (1-t)f(z)$$
+    Let $y = tx + (1-t)z$. Then:
+    $$ f(y) < tf(x) + (1-t)f(z)$$ 
+    Subtract $f(x)$
+    $$ f(y) - f(x) < (t-1)f(x) + (1-t)f(z)$$
+    $$ f(y) - f(x) < (t-1)(f(x) - f(z))$$
+    Divide by $y-x$, since $x < y$ and therefore $x-y \neq 0$
+    $$ \frac{f(y) - f(x)}{y-x} < \frac{(t-1)(f(x) - f(z))}{y-x}$$
+    Choose $t = \frac{y-x}{z-x} +1$
+    $$ \frac{f(y) - f(x)}{y-x} < \frac{f(x) - f(z)}{z-x}$$
+    The argument is analogous for the slope between $z-x$ to $z-y$, concluding the proof.
+}
+\item[b)]{
+
+}
+\item[c)]{
+    $f$ is not necessarily continous in $a$ and $b$ as exemplified by:
+    $$f(x) = 
+    \begin{cases}
+      x^2 & \text{if } x \in [a,b]\\
+      0 & \text{otherwise}
+    \end{cases}
+    $$
+
+  }
+
+\end{enumerate}
+
+\section*{Exercise 3 (Convexity)}
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+
+}
+\item[b)]{
+    Consider the logarithm. $log$ is concave, since its second derivative $-\frac{1}{x^2}$ is negative.
+    Since the logarithm is monotone it preserves inequality and we can instead consider
+    $$log(\frac{1}{n} \sum_{i=1}^{n}x_i) \leq log((\prod_{i=1}^n x_i)^{\frac{1}{n}})$$
+    $$log(\frac{1}{n} \sum_{i=1}^{n}x_i) \leq \frac{1}{n} log(\prod_{i=1}^n x_i)$$
+    $$log(\frac{1}{n} \sum_{i=1}^{n}x_i) \leq \frac{1}{n} \sum_{i=1}^n log(x_i)$$
+    This holds by the result from a).
+
+}
+\end{enumerate}
+
+\section*{Exercise 4 (Dual Problem)}
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+    $$ f(x, y) = max\;\; x+y$$
+    $$\text{subject to } x^2 +2y^2 \leq 5$$
+    Bring to normal form by minimizing and bringing constraint to the form $\leq 0$
+    $$ f(x) = min\;  -x-y$$
+    $$\text{subject to } x^2 + 2y^2 - 5 \leq 0$$
+    $$\mathcal{L}(x,y) = min\; -x-y - \lambda (x^2 + 2y^2 -5)$$
+    Solve for stationarity: 
+    $$\nabla \mathcal{L} \overset{!}{=} 0$$
+    $$\diffp{L}{x} = 1 + 2\lambda x$$
+    $$\Rightarrow x  = \frac{1}{2\lambda}$$
+    $$\diffp{L}{y} = 1 + 4\lambda y$$
+    $$\Rightarrow y  = \frac{1}{4\lambda}$$
+    Solve for primal feasibility:
+    $$x^2 + 2y^2 -5 \leq 0$$
+    $$\frac{1}{4\lambda^2} + 2\frac{1}{16\lambda^2} -5 \leq 0$$
+    $$\frac{1}{4\lambda^2} + \frac{1}{8\lambda^2} -5 \leq 0$$
+    $$\frac{3}{8\lambda^2}  \leq 5$$
+    $$\frac{3}{8}  \leq 5\lambda^2$$
+    $$\frac{3}{40}  \leq \lambda^2$$
+    $$\sqrt{\frac{3}{40}} \leq \lambda$$
+    $$\Rightarrow x = \frac{1}{2\sqrt{\frac{3}{40}}} = \frac{1}{\sqrt{\frac{4  \cdot 3}{40}}}= \sqrt{\frac{10}{3}}$$
+    $$ \Rightarrow y = \sqrt{\frac{5}{3}}$$
+    The constraint is active since $\lambda > 0$ (dual feasibility).
+    This makes intuitive sense since the function would otherwise be unbounded and the optimal solution would be $x = y = \infty$.
+}
+\item[b)]{
+    The Lagranian of the problem is:
+    $$L(x,\lambda) = min \; -c^t x - \lambda (Ax-b)$$
+    Therefore we obtain the dual function $g(\lambda) = \underset{x}{inf} \mathcal{L}(x,\lambda)$.
+    
+
+}
+\end{enumerate}
+\end{document}
