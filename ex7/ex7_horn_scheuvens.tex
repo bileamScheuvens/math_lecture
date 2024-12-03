@@ -71,10 +71,20 @@ Justify all your claims.
     $$ x = Q^{-1}b$$
     This is a minimum and therefore the optimal solution to the problem, if the Hessian is positive definite.
     $$\nabla^2 \frac{1}{2} x^t Qx - b^t x = Q$$
-    Since we know $Q$ to be PD, $x^* = Q^{-1}b$
+    Since we know $Q$ to be PD, $x^* = Q^{-1}b$.
   }
 
 \item[b)] {
+    $$||x_{k+1} - x^*|| = ||x_k - \alpha \nabla f(x_k) - x^* ||$$
+    $$ = ||(x_k - x^*)  - \alpha (Qx_k + b) ||$$
+    Since $b = Qx^*$
+    $$= ||(x_k - x^*) - \alpha Q (x_k + x^*) ||$$
+    $$= ||(x_k - x^*) (I - \alpha Q)  ||$$
+$$\leq ||(x_k - x^*)||\cdot ||(I - \alpha Q)  ||$$
+    Let $\alpha = \frac{2}{\lambda_{max} + \lambda_{min}}$
+    $$\leq ||(x_k - x^*)||\cdot ||(I - \frac{2Q}{\lambda_{max} + \lambda_{min}})  ||$$
+$$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max} + \lambda_{min}}\right)$$
+
   }
 \item[c)] {
     $$x_{k+1} = x_k - Q^{-1}\nabla (\frac{1}{2} x_k^t Qx - b^t x_k)$$
