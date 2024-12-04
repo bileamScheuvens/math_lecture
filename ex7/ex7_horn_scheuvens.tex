@@ -117,7 +117,22 @@ $$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max
     $$ \frac{f(y) - f(x)}{y-x} < \frac{f(x) - f(z)}{z-x}$$
     The argument is analogous for the slope between $z-x$ to $z-y$, concluding the proof.
 }
-\item[b)]{
+\item[b)]{	To show the continuity on $(a, b)$ we use the $\epsilon-\delta$ criterion, i.e. we show that for any point $x\in(a, b)$ we find a $\delta$ such that $d(x, x') < \delta \Rightarrow d(f(x), f(x')) < \epsilon$.
+	We first extend the expressions derived in a for the points $a<x<x'<b$:
+	$$
+	\frac{f(x)-f(a)}{x-a}\leq\frac{f(x')-f(a)}{x'-a}\leq\frac{f(x')-f(x)}{x'-x}\leq \frac{f(b)-f(x)}{b-x}\leq\frac{f(b)-f(x')}{b-x'}
+	$$
+	If we then want to determine the continuity in point $x$ we show that we can bound $d(f(x),f(x')) \leq d(x, x) \max(\frac{f(x)-f(a)}{x-a}, \frac{f(b)-f(x)}{b-x})$. 
+	Without loss of generalisation we only look at the points $x'>x$ and $d(x, x') < \delta$. 
+	We can differentiate two different cases:\\
+	Case 1: $f(x')-f(x)$ is positive.\\
+	In this case we can directly see that: 
+	$$f(x')-f(x) \leq \frac{f(b)-f(x')}{b-x'} (x'-x) \Rightarrow d(f(x'), f(x)) \leq \frac{f(b)-f(x')}{b-x'}d(x', x) = C_1 d(x',x),
+	$$ with $C_1 = \frac{f(b)-f(x')}{b-x'}$ positive. \\
+	In this case we easily find a $\delta = \epsilon /C_1$. \\
+	Case 2: $f(x')-f(x)$ is negative, then it directly follows that $	\frac{f(x)-f(a)}{x-a} = C_2$ is negative with $|C_2| d(x', x) \geq | f(x')-f(x)| = d(f(x'), f(x))$. 
+	Therefore, if we choose the maximum of $C_1, C_2$ as constant $C$ we can bound $d(f(x'), f(x)) \ leq C d(x', x)$ and thus we can directly determine $\delta = \epsilon / C$. 
+	We can for points $x'<x$ (just exchange of $x$ and $x'$ under the derivations) and thus the $\epsilon-\delta$ criterion is fulfilled for all $x \in (a, b)$.
 
 }
 \item[c)]{
@@ -138,6 +153,38 @@ $$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max
 
 \begin{enumerate}
 \item[a)]{
+		We first prove that if $\sum_i^n \lambda_i = 1$ and $x_i \in S$ then also $\sum_i^{n}\lambda_i x_i \in S$ for a convex set $S$. 
+	We prove this by induction with induction start $n=2$. \\
+	IA: For $n=2$ we have $\lambda_1 x_1 + (1-\lambda) x_2 \in S$ per definition of the convex set.\\ 
+	IH: We now assume that the assumption is true for $n$ and prove that it is still true for $n+1$. \\
+	ID: $\sum_i^{n+1} = \lambda_{n+1} x_{n+1} + \sum_{i}^{n}\lambda_ix_i = \lambda_{n+1} x_{n+1} + (1-\lambda_{n+1})\sum_{i}^{n}\frac{\lambda_i}{1-\lambda_{n+1}}x_i$. \\Then  $\sum_{i}^{n}\frac{\lambda_i}{1-\lambda_{n+1}} = 1 $ and therefore $\sum_{i}^{n}\frac{\lambda_i}{1-\lambda_{n+1}}x_i = c  \in S$. Then we have
+	$$
+	\sum_i^{n+1} = \lambda_{n+1} x_{n+1} + (1- \lambda_{n+1}) c\in S,
+	$$
+	from the definition of the convex set. \\
+	
+	$"\Rightarrow"$ Assume f is convex and show the inequality.\\
+	We again prove this with induction with induction start for $n=2$.\\
+	IA: If $f$ is convex then we know that $f(\lambda_1 x_1 + (1- \lambda_1) x_2) \leq \lambda_1 f(x_1) + (1-\lambda) f(x_2)$ directly from the definition of convex functions. \\
+	IH: Assume that $f(\sum_i^n \lambda_i x_i) \leq \lambda_i \sum_i^n x_i$. \\
+	ID: Prove that it is true for$n+1$ under the assumption for n. 
+	$$f(\sum_i^{n+1} \lambda_i x_i) = f(\sum_i^{n} \lambda_i x_i + \lambda_{n+1}x_{n+1}) = f((1-\lambda_{n+1}) / (1- \lambda_{n+1})\sum_i^{n} \lambda_i x_i + \lambda_{n+1}x_{n+1}).
+	$$ We know that $c = \frac{1}{1- \lambda_{n+1}}\sum_i^{n} \lambda_i x_i \in S$ therefore it directly follows from the definition of a convex function that:
+	$$
+	f(\sum_i^{n+1} \lambda_i x_i) = f( \lambda_{n+1} x_{n+1} + (1-\lambda_{n+1})c) \leq \lambda_{n+1}f(x_i) + (1-\lambda_{n+1}) f(c)
+	$$
+	$$
+	\overset{IH}{\leq} \lambda_{n+1}f(x_i) + (1-\lambda_{n+1}) \sum_i^n\frac{1}{1- \lambda_{n+1}}f(x_i) 
+	$$
+	$$
+	=  \sum_i^{n+1}f(x_i)
+	$$\\
+	$"\Leftarrow"$ Assume that the inequality holds it follows that f is convex.\\
+	This follows directly from the case $n=2$:
+	$$
+	f(\lambda_1 x_1 + (1- \lambda_1) x_2) \leq \lambda_1 f(x_1) + (1-\lambda)f(x_2)
+	$$
+	is the definition of a convex function. 
 
 }
 \item[b)]{
