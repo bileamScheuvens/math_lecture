@@ -81,8 +81,11 @@ Justify all your claims.
     $$= ||(x_k - x^*) - \alpha Q (x_k + x^*) ||$$
     $$= ||(x_k - x^*) (I - \alpha Q)  ||$$
 $$\leq ||(x_k - x^*)||\cdot ||(I - \alpha Q)  ||$$
+Since the largest stretch that $1-Q$ can apply, is none - the smallest stretch by $Q$: 
+$$= ||(x_k - x^*)||\cdot (1-\alpha \lambda_{min})$$
     Let $\alpha = \frac{2}{\lambda_{max} + \lambda_{min}}$
-    $$\leq ||(x_k - x^*)||\cdot ||(I - \frac{2Q}{\lambda_{max} + \lambda_{min}})  ||$$
+    $$= ||(x_k - x^*)||\cdot (1 - \frac{2\lambda_{min}}{\lambda_{max} + \lambda_{min}})$$
+    $$= ||(x_k - x^*)||\cdot (\frac{\lambda_{max} + \lambda_{min}}{\lambda_{max} + \lambda_{min}} - \frac{2\lambda_{min}}{\lambda_{max} + \lambda_{min}})$$
 $$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max} + \lambda_{min}}\right)$$
 
   }
