@@ -207,7 +207,7 @@ $$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max
     Bring to normal form by minimizing and bringing constraint to the form $\leq 0$
     $$ f(x) = min\;  -x-y$$
     $$\text{subject to } x^2 + 2y^2 - 5 \leq 0$$
-    $$\mathcal{L}(x,y) = min\; -x-y - \lambda (x^2 + 2y^2 -5)$$
+    $$\mathcal{L}(x,y) = -x-y - \lambda (x^2 + 2y^2 -5)$$
     Solve for stationarity: 
     $$\nabla \mathcal{L} \overset{!}{=} 0$$
     $$\diffp{L}{x} = 1 + 2\lambda x$$
@@ -229,8 +229,10 @@ $$= ||(x_k - x^*)||\cdot \left(\frac{\lambda_{max} - \lambda_{min}}{\lambda_{max
 }
 \item[b)]{
     The Lagranian of the problem is:
-    $$L(x,\lambda) = min \; -c^t x - \lambda (Ax-b)$$
-    Therefore we obtain the dual function $g(\lambda) = \underset{x}{inf} \mathcal{L}(x,\lambda)$.
+    $$L(x,\lambda) =-c^t x - \lambda (Ax-b)$$
+    Therefore we obtain the dual function $g(\lambda) = \underset{x}{inf}\; \mathcal{L}(x,\lambda)$, and the dual problem $\underset{\lambda}{max}\; g(\lambda)$.
+    Since the objective function of the dual problem is simply the lagrangian and therefore a sum of linear terms (the original objective and the linear penalties) the result is again linear.
+
     
 
 }
