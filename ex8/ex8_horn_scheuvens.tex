@@ -1,0 +1,169 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+Justify all your claims.
+\section*{Online Gradient Descent}
+
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+    The pythagorean inequality becomes apparent when we expand by $\hat{y}$:
+    $$ ||y-u||^2 = ||y-\hat{y} + \hat{y} - u||^2$$
+    $$ = || (y-\hat{y}) + (\hat{y} - u)||^2$$
+    This way we can apply the parallelogram law $||a + b||^2 = ||a||^2 + ||b||^2 + 2\langle a,b\rangle $:
+    $$= ||y-\hat{y}||^2 + ||\hat{y} - u||^2 + 2\langle y-\hat{y}, \hat{y} -u \rangle$$
+    Since the $\langle a,b \rangle \geq 0$:
+    $$\geq ||y-\hat{y}||^2 + ||\hat{y} - u||^2 $$
+
+  }
+
+\item[b)] {
+    Consider the distance between the $w_{t+1}$ and $u$:
+  $$||w_{t+1} - u||^2$$
+  We can expand $w_{t+1}$ with our step rule before applying $P_U$
+  $$ = ||w_t - \eta \nabla f_t(w_t) - u||^2 - \epsilon$$
+  Where $\epsilon$ describes the nonnegative length lost in the projection. Without $\epsilon$ clearly:
+  $$||w_{t+1} - u||^2 \leq ||w_t - \eta \nabla f_t(w_t) - u||^2$$
+  $$ = ||(w_t - u) + (-\eta \nabla f_t(w_t))||^2$$
+  $$ = ||(w_t - u)||^2 + ||(-\eta \nabla f_t(w_t))||^2 + 2\langle w_t - u, -\eta \nabla f_t(w_t)\rangle $$
+  $$ = ||(w_t - u)||^2 + \eta^2||\nabla f_t(w_t)||^2 - 2\eta\langle w_t - u, \nabla f_t(w_t)\rangle $$
+  Remember the term we started with:
+  $$ ||w_{t+1} - u||^2 \leq ||(w_t - u)||^2 + \eta^2||\nabla f_t(w_t)||^2 - 2\eta\langle w_t - u, \nabla f_t(w_t)\rangle $$
+  $$  2\eta\langle w_t - u, \nabla f_t(w_t)\rangle \leq ||(w_t - u)||^2 + \eta^2||\nabla f_t(w_t)||^2 - ||w_{t+1} - u||^2$$
+  Divide by $2\eta$:
+  $$  \langle w_t - u, \nabla f_t(w_t)\rangle \leq \frac{||(w_t - u)||^2 - ||w_{t+1} - u||^2}{2\eta}+ \frac{\eta}{2}||\nabla f_t(w_t)||^2 $$
+  }
+\item[c)] {
+    From convexity we know that a (differentiable) function stays above any linear local approximation, that is to say for $x,y$ in the domain of $f$:
+    $$f(x) \geq f(y) + \langle \nabla f(y), x-y\rangle$$ 
+    $$\Leftrightarrow -\langle \nabla f(y), x-y\rangle \geq f(y) - f(x)$$ 
+    $$\Leftrightarrow \langle \nabla f(y), y-x\rangle \geq f(y) - f(x)$$ 
+    Translating to our problem, we obtain:
+    $$f_t(w_t) - f_t(u) \leq \langle \nabla f_t(w_t), w_t -u \rangle$$
+    We can replace the right side with our inequality from b):
+    $$f_t(w_t) - f_t(u) \leq  \frac{||(w_t - u)||^2 - ||w_{t+1} - u||^2}{2\eta}+ \frac{\eta}{2}||\nabla f_t(w_t)||^2 $$
+    The sum $\sum_{t=1}^T f_t(w_t) - f_t(u)$ can then be decomposed to examine both sums on the right hand side individually:
+    $$\sum_{t=1}^T \frac{||(w_t - u)||^2 - ||w_{t+1} - u||^2}{2\eta} = \frac{1}{2\eta}\sum_{t=1}^T ||(w_t - u)||^2 - ||w_{t+1} - u||^2$$
+    It can be seen that this sum is telescopic, that is, it expands to:
+    $$ \frac{1}{2\eta} ( ||w_1 - u||^2 - ||w_2 - 2||^2  + ||w_2 - u||^2 - ||w_3 - u||^2 + ||w_3 - u||^2 + \dots ) $$
+    leaving only the first and last term.
+    $$= \frac{||w_1- u ||^2 - ||w_{T+1} -u ||^2}{2\eta}$$
+    Since $w_1 = 0$, $||u||^2 \leq D$ we obtain:
+    $$\leq \frac{D^2 - ||w_{T+1} - u||^2}{2\eta}$$
+    $$\leq \frac{D^2}{2\eta}$$
+    Returning to the original expression and examining the other summand:
+$$\frac{\eta}{2} \sum_{t+1}^T ||\nabla f_t(w_t)||^2$$
+Since that $\nabla |f_t| \leq G$:
+$$\leq \frac{\eta}{2} \sum_{t+1}^T G^2$$
+$$= \frac{\eta}{2} T G^2$$
+
+This concludes the proof that:
+$$\underset{u \in U}{max} \sum_{t=1}^T f_t(w_t) - f_t(u) \leq  \frac{D^2}{2\eta} + \frac{\eta}{2} T G^2$$
+
+\item[d)]{
+    To find the optimal $\eta$ we investigate the upper bound for critical points.
+    $$ \frac{d}{d \eta} \left( \frac{D^2}{2\eta} + \frac{\eta}{2} T G^2\right)  \overset{!}{=} 0$$
+    $$\frac{-D^2}{2\eta^2} + \frac{TG^2}{2} = 0 $$
+    $$\frac{TG^2}{2} = \frac{D^2}{2\eta^2}  $$
+    $$\eta^2TG^2 = D^2$$
+    $$\eta^2 = \frac{D^2}{TG^2}$$
+    $$\eta = \frac{D}{\sqrt{T}G}$$
+    This is a minimum, since the second derivative is $\frac{D^2}{6\eta^3}$, which is positive.
+
+    Inserting this into the original equation yields a worst case regret of:
+    $$\frac{D^2}{2\left(\frac{D}{\sqrt{T}{G}}\right)} + \frac{\left(\frac{D}{\sqrt{T}G}\right)}{2} T G^2$$
+    $$=\frac{D^2\sqrt{T}G}{2D} + \frac{D}{2\sqrt{T}G} T G^2$$
+    $$=\frac{D\sqrt{T}G}{2} + \frac{D\sqrt{T}G}{2}$$
+    $$=D\sqrt{T}G$$
+  }
+    
+
+
+}
+\end{enumerate}
+\section*{Formal proof of the existence of Lagrange Multipliers}
+
+\subsection*{Solution}
+\begin{enumerate}
+\item[a)]{
+
+}
+\item[b)]{
+}
+\item[c)]{
+
+  }
+
+\end{enumerate}
+
+\section*{Differentiable approximation of $\mathcal{L}^1$-approximation}
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+
+}
+\item[b)]{
+
+}
+\end{enumerate}
+
+\end{document}
