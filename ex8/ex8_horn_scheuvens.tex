@@ -159,9 +159,33 @@ $$\underset{u \in U}{max} \sum_{t=1}^T f_t(w_t) - f_t(u) \leq  \frac{D^2}{2\eta}
 
 \begin{enumerate}
 \item[a)]{
+    Given:
+    $$\underset{x,y}{min}\; ||y||_1$$
+    $$\text{Subject to } y-Ax + b = 0$$
+    We can rearrange into the Lagrangian:
+    $$\mathcal{L}(y,x,y) = \underset{x,y}{min}\; ||y||_1 + \lambda (y-Ax+b)$$
+    The dual is then:
+    $$g(\lambda) = \underset{y,x}{inf}\; \mathcal{L}(y,x,\lambda)$$
+    To obtain our constrained version we can differentiate this wrt x and y.
+    Starting with y:
+    $$\underset{y}{inf}\; ||y||_1 + \lambda^t y$$
+    It can be seen that this is lower bounded by 0 if the all entries of $\lambda$ are in $[-1,1]$, as any negative terms are canceled out by the norm. Without this restriction, however, it is unbounded. Therefore:
+    $$ = \begin{cases}
+      0 & \text{if} |\lambda_i| \leq 1\; \forall i\\
+      -\infty & otherwise\\
+    \end{cases}$$
+    Differentiating wrt x yields:
+    $$\underset{x}{inf}\; -\lambda^t Ax$$
+    For dual feasibilty we require $\lambda A = 0$, yielding our second constraint.
+    Substituting this for the infimum into the dual problem leaves:
+    $$g(\lambda) = \underset{\lambda}{max}\; \lambda^t b$$
+    $$\text{subject to } |\lambda_i| \leq 1\; \forall i,\; \lambda^t A =0$$
 
 }
 \item[b)]{
+
+}
+\item[c)]{
 
 }
 \end{enumerate}
