@@ -140,19 +140,24 @@ $$\underset{u \in U}{max} \sum_{t=1}^T f_t(w_t) - f_t(u) \leq  \frac{D^2}{2\eta}
 }
 \end{enumerate}
 \section*{Formal proof of the existence of Lagrange Multipliers}
-
+Let $f, g \mathbb{R}^d \to \mathbb{R}$. 
 \subsection*{Solution}
-\begin{enumerate}
-\item[a)]{
-
-}
-\item[b)]{
-}
-\item[c)]{
-
-  }
-
-\end{enumerate}
+We want to show that the problem $\min_x f(x)$ under the constraint $g(x)=0$ is solved by $\nabla f(x) + \nu g(x) =0$. \\
+For this we first introduce the parametrisation function $h(t)$, such that the image of $h$ is $\{x|g(x) = 0\}$. 
+For this function we know that $g(h(t)) = 0 \forall t$. In particular, this means that it is a constant function and thererfore by definition $\frac{dg(h(t))}{dt} = 0$. Writing this out with the chain rule we obtain:
+$$
+\nabla g(h(t)) Dh(t) = 0.
+$$
+On the other hand $f(h(t))$ also fulfills the condition that it only is defined over all $x$ for which $g(x)=0$. Taking the derivative and setting to zero to find the minimum we find:
+$$
+\nabla f(h(t*)) Dh(t*) = 0,
+$$
+with $h(t*) = x*$, the minimal point of the optimization problem. 
+This means that $\nabla f(h(t))$ and as $\nabla g(h(t))$ are perpendicular to $range(Dh(t))$. But we can assume that $Dh(t)$ has full rank the space perpendicular to $Dh(p)$ has only dimension $d-(d-1) = 1$ and therefore $\nabla g(h(t)) = \nu \nabla f(h(t*))$ and thus the proposition:
+$$
+\nabla f(x*) + \nu g(x*) =0
+$$
+holds true. 
 
 \section*{Differentiable approximation of $\mathcal{L}^1$-approximation}
 \subsection*{Solution}
