@@ -113,4 +113,28 @@ $$ \Rightarrow -1\leq \varrho_{X,Y} \leq 1$$
 
 \section*{Independance}
 \subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+      Assume X is independant of itself. Then 
+      $$\Pr(X \leq c) \cap \Pr(X \leq c) = \Pr(X \leq c) * \Pr(X \leq c)$$
+      $$ = \Pr(X \leq c)^2$$
+      Additionally, regardless of whether $X \leq c$ it holds that:
+      $$\Pr(X \leq c) \cap \Pr(X \leq c) = \Pr(X \leq c)$$
+      Thus 
+      $$\Pr(X \leq c) = \Pr(X \leq c)^2$$
+      Which can only be the case if the $\Pr(X \leq c) \in \{0,1\}$.
+      The same argument works $X < c$ to show that $\Pr(X < c) \in \{0,1\}$ too.
+      Since:
+      $$\Pr(X=c) =  \Pr(X \leq c)- \Pr(X < c)$$
+      It follows that $\Pr(X=c) \in \{0,1\}$ for any c.
+      Thus X is constant if it is independant of itself. \\
+      It remains to show that X is independant if it is constant.
+      Suppose $\Pr(X=c) =1$, then:
+      $$\Pr(X=c) \cap \Pr(X=c) = 1 * 1 = \Pr(X=c) \Pr(X=c) $$
+      Alternatively suppose $\Pr(X=c) = 0$
+      $$\Pr(X=c) \cap \Pr(X=c) = 0 * 0 = \Pr(X=c) \Pr(X=c) $$
+      Thus X is independant of itself if it is constant, concluding the proof.
+
+    }
+\end{enumerate}
 \end{document}
