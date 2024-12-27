@@ -1,0 +1,158 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+\section*{Convolutions}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+      If $X$ and $Y$ are two independent random variables and $Z = X + Y$, then the probability $P(Z=z)$ can be constructed by collecting all outcomes $x \in im(X)$ and inspecting the corresponding outcomes $y$, which cover the difference between $z$ and $x$ with $P(Y=y) = 0$ if $y\notin im(Y)$. By independence the $P(X=x) \cap P(Y=y) = P(X=x)P(Y=y)$. Thus the probability distribution of $Z$ can be expressed as:
+      $$P(Z=z) =\sum_{x\in im(X)} P(X=x) \cdot P(Y=z-x)$$
+    }
+  \item[b)]{
+      Let $X, Y \sim \text{Poisson}(\lambda_{1,2}), Z = X +Y$.
+      $$P(Z=z) =\sum_{x\in im(X)} P(X=x) \cdot P(Y=z-x)$$
+      $$= \sum_{x\in im(X)} \frac{\lambda_1^x \cdot e^{-\lambda_1}}{x!} \cdot \frac{\lambda_2^{x-z} \cdot e^{-\lambda_2}}{(z-x)!}$$
+      $$= \sum_{x\in im(X)} \frac{\lambda_1^x \lambda_2^{x-z} \cdot e^{-\lambda_1 - \lambda_2}}{x! (z-x)!}$$
+      $$= e^{-\lambda_1 - \lambda_2} \sum_{x\in im(X)} \frac{\lambda_1^x \lambda_2^{x-z}}{x! (z-x)!} $$
+      Expand with $1/z!$ to complete binom coefficient
+      $$= e^{-\lambda_1 - \lambda_2} \frac{1}{z!}\sum_{x\in im(X)} \frac{z!}{x! (z-x)!}\lambda_1^x \lambda_2^{x-z} $$
+      $$= e^{-\lambda_1 - \lambda_2} \frac{1}{z!}\sum_{x\in im(X)} \binom{z}{k} \lambda_1^x \lambda_2^{x-z} $$
+      The sum is simply the binomial expansion of $(\lambda_1 + \lambda_2)^z$
+$$P(Z=z) = \frac{(\lambda_1 + \lambda_2)^z \cdot e^{-(\lambda_1 + \lambda_2)}}{z!}$$
+Which is the expression for a poisson distributed variable with $\lambda = \lambda_1 + \lambda_2$
+
+\item[c]{
+    If X is normally distributed then the density is given by $p_X(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}$. We know:
+    $$P_Z(z) = \int_{-\infty}^{\infty} p_X(x) \cdot p_Y(z-x)dx$$
+    $$= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}} \cdot \frac{1}{\sqrt{2\pi}} e^{-\frac{(z-x)^2}{2}}$$
+    $$= \frac{1}{2\pi}\int_{-\infty}^{\infty}  e^{-\frac{x^2}{2}} \cdot e^{-\frac{(z-x)^2}{2}}$$
+    $$= \frac{1}{2\pi}\int_{-\infty}^{\infty}  e^{- \left(\frac{x^2 +z^2 -2zx + x^2}{2}\right)}$$
+  $$= \frac{1}{2\pi}\int_{-\infty}^{\infty}  e^{- \left(x^2 +\frac{z^2}{2} -zx\right)}$$
+  By completing the square of $(x-\frac{z}{2})^2$:
+  $$= \frac{1}{2\pi}\int_{-\infty}^{\infty}  e^{-(x-\frac{z}{2})^2 - \frac{z^2}{4}}$$
+  $$= \frac{1}{2\pi} e^{-\frac{z^2}{4}} \int_{-\infty}^{\infty}  e^{-(x-\frac{z}{2})^2} $$
+  Since the integral is a gaussian integral shifted along the x axis (which does not influence volume), we know it evaluates to $\sqrt{\pi}$:
+  $$= \frac{1}{2\pi} e^{-\frac{z^2}{4}} \sqrt{\pi}$$
+  $$= \frac{1}{\sqrt{2\pi}} e^{-\frac{z^2}{4}}$$
+  This matches the expression for the density of a normally distributed variable.
+  }
+
+
+    }
+\end{enumerate}
+
+\section*{Weak law of large numbers}
+
+\subsection*{Solution}
+Given a sequence $X_1, X_2, \dots$ and its sum $S_n = \sum_{i=1}^n X_i$, we know $E(S_n) = \sum_{i=1}^{n} E(X)$ and $Var(X)/n$ by subsample variance.
+Thus $\underset{lim}{n\rightarrow \infty} Var(S_n) = 0$ and $E(S_n) = S_n = \sum_{i=1}^n E(x)$ 
+$$\Leftrightarrow \frac{1}{n} S_n = E(X)$$ 
+$$\Leftrightarrow \frac{1}{n} S_n \overset{P}{\rightarrow}E(X_1)$$ 
+
+\section*{Poisson distribution}
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+    $$E(X) = \sum_{x=0}^{\infty} x P(X=x)$$
+    $$= \sum_{x=0}^{\infty} x \frac{\lambda^x e^{-\lambda}}{x!}$$
+    $$= \sum_{x=0}^{\infty} \frac{\lambda^x e^{-\lambda}}{(x-1)!}$$
+    Since the first term of the sequence equals 0:
+    $$= \sum_{x=1}^{\infty} \frac{\lambda^x e^{-\lambda}}{(x-1)!}$$
+    $$= \sum_{x=1}^{\infty} \frac{\lambda^x e^{-\lambda}}{(x-1)!}$$
+    Introduce $\tilde{x} = x -1$
+    $$= \sum_{\tilde{x}=0}^{\infty} \frac{\lambda^{\tilde{x}+1} e^{-\lambda}}{\tilde{x}!}$$
+    $$= \lambda e^{-\lambda}\sum_{\tilde{x}=0}^{\infty} \frac{\lambda^{\tilde{x}}}{\tilde{x}!}$$
+    Since the sum is the taylor expansion of e:
+    $$= \lambda e^{-\lambda}e^{\lambda}$$
+    $$E(X)=\lambda$$
+    For the Variance:
+    $$Var(X) = E(X^2) - E(X)^2$$
+    $$= E(X^2) - \lambda^2$$
+    $$= \sum_{x=0}^{\infty} x^2 P(X=x) - \lambda^2$$
+    $$= \sum_{x=0}^{\infty} (x(x-1) + x) P(X=x) - \lambda^2$$
+    $$= \sum_{x=0}^{\infty} x(x-1) P(X=x)  + \lambda - \lambda^2$$
+    $$= \sum_{x=0}^{\infty} x(x-1) \frac{\lambda^x e^{-\lambda}}{x!}  + \lambda - \lambda^2$$
+    $$= \sum_{x=0}^{\infty} x(x-1) \frac{\lambda^x e^{-\lambda}}{x!}  + \lambda - \lambda^2$$
+    Analogous reasoning to above, first 2 terms are 0, then reindex with $\tilde{x} = x -2$:
+    $$= \sum_{x=2}^{\infty} x(x-1) \frac{\lambda^x e^{-\lambda}}{x!}  + \lambda - \lambda^2$$
+    $$= \sum_{\tilde{x}=0}^{\infty} \frac{\lambda^{\tilde{x} -2} e^{-\lambda}}{\tilde{x}!}  + \lambda - \lambda^2$$
+    $$= \lambda^2 e^{-\lambda} \sum_{\tilde{x}=0}^{\infty} \frac{\lambda^{\tilde{x}}}{\tilde{x}!}  + \lambda - \lambda^2$$
+    $$= \lambda^2 e^{-\lambda} e^{\lambda} + \lambda - \lambda^2$$
+    $$= \lambda^2 + \lambda - \lambda^2$$
+    $$= \lambda$$
+
+
+}
+\item[b)]{
+
+}
+\item[c)]{
+
+
+}
+\end{enumerate}
+
+\section*{Convergence of random variables}
+\subsection*{Solution}
+
+\section*{Bonus Exercise}
+\end{document}
