@@ -153,6 +153,10 @@ $$\Leftrightarrow \frac{1}{n} S_n \overset{P}{\rightarrow}E(X_1)$$
 
 \section*{Convergence of random variables}
 \subsection*{Solution}
-
-\section*{Bonus Exercise}
+We know from convergence in probability that $\underset{n\rightarrow \infty}{lim}P(|X_n - X| > \epsilon) = 0$. In other words, for an arbitrarily small $\delta$ we can find a point N for which all $n\geq N$ are smaller.
+This means, that for any $\omega \in \Omega$, if $P(\omega) > 0$  and $\delta = P(\omega)$ there exists an N:
+$$P(|X_n - X| > \epsilon) < P(\omega)\quad \forall n \geq N$$
+Assume $\omega$ is part of the set where $|X_n -X|> \epsilon$, that is $|X_n(\omega) -X(\omega)|> \epsilon$.
+Then the probability of this set must be $\geq P(\omega)$, since it contains $\omega$. This contradicts our previous assertion, that $P(|X_n - X| > \epsilon) < P(\omega)$.
+Since this holds for all $\omega \in \Omega$, a deviation bigger than $\epsilon$ cannot exist, and we conclude Convergence almost surely.
 \end{document}
