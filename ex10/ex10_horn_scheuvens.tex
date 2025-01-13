@@ -143,9 +143,24 @@ $$\Leftrightarrow \frac{1}{n} S_n \overset{P}{\rightarrow}E(X_1)$$
 
 }
 \item[b)]{
+$$\lim_{n\to\infty} \text{Bin}(n, \lambda/n) (k) = \lim_{n\to\infty} \binom{n}{k} {\frac{\lambda}{n}}^k \left(1 - \frac{\lambda}{n}\right)^{n-k} $$
+$$=\lim_{n\to\infty} \frac{1}{k!} \frac{n!}{(n-k)!} \lambda^k n^{-k} \left(1 - \frac{\lambda}{n}\right)^{-k} \left(1 - \frac{\lambda}{n}\right)^{n}$$
+We can use that $$\lim_{n\to\infty} a_n b_n = \lim_{n\to\infty} a_n \lim_{n\to\infty} b_n, $$ when the separate limits exists.
+$$\lim_{n\to\infty} \frac{n!}{(n-k)!n^k}  = \lim_{n\to\infty} \prod_{i= n-k}^n \frac{i}{n} = 1, $$ in the case where $k$ remains fixed and thus $k<<n$. 
+$$\lim_{n\to\infty}\left(1 - \frac{\lambda}{n}\right)^{-k} = \left(\lim_{n\to\infty} \left(1 - \frac{\lambda}{n}\right)\right)^{-k} = 1^{-k} = 1$$
+And lastly, we use the hint from the exercise sheet to show:
+$$\lim_{n\to\infty} \left(1 - \frac{\lambda}{n}\right)^{n} = 1  - e^{-\lambda}
+$$
+So all the limits of the product exist and the total limit is therefore given by:
+$$
+\lim_{n\to\infty} \text{Bin}(n, \lambda/n) (k) = \frac{\lambda^k}{k!}(1-e^{-\lambda}),
+$$
+which is the Poisson distribution. 
 
 }
 \item[c)]{
+This shows that the Poisson distribution comes from the limit, where we increase the number of trials, but keep the total number of succeses. For this reason also the probabilty of each event scales with the number of trials. As with a time derivative this gives means that $\lambda$ then represents a rate of success in a certain intervall. 
+
 
 
 }
