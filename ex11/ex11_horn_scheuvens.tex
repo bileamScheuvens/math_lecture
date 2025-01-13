@@ -1,0 +1,123 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+\section*{Convergence of random variables}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+    For any $h$ we divide $[0,1]$ into $k$ subintervals of length/measure $\frac{1}{2^h} = 2^{-h}$.\\
+      Since $2^h \geq \frac{n}{2}$, $h \geq log_2(\frac{n}{2}) = log_2(n) - 1$, we know that:
+      $$\underset{n\rightarrow \infty}{lim} 2^{-h} = 0$$
+      Since the length of these intervals tends to $0$, $\mathbb{P}(X_n(\omega)) \overset{p}{\rightarrow} 0$\\
+      However for $\frac{k}{2^h} \leq \omega \leq \frac{k+1}{2^h}$, we still have probability $1$, and thus no convergence a.s.
+    }
+  \item[b)]{
+
+    }
+\end{enumerate}
+
+\section*{Limit theorems}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+      Each sock $S_i \sim Ber(p)$, thus $\mathbb{E} S_i = p$, $X_n = \frac{\sum_{i=1}^n S_i}{n}$.
+      $$\mathbb{E} X_n = \frac{\sum_{i=1}^n \mathbb{E} S_i}{n}$$
+      $$= \frac{n \cdot p}{n}$$
+      $$=p$$
+      By the strong law of large numbers (SLLN), $X_n \overset{a.s.}{\rightarrow} \mathbb{E}X_n = p$.
+      If $S_i$ is the indicator variable for whether the sock was black, it follows that $(1-S_i) = 1$ if the sock is white, and we find $\mathbb{E} (1-S_i) = 1-\mathbb{E} S_1 = 1-p$.
+      Therefore by the same logic $Y_i = \frac{\sum S_i}{\sum 1-S_i}$ converges to its expectation as $n\rightarrow \infty$, yielding $\frac{p}{1-p}$.
+    }
+  \item[b)]{}
+  \item[c)]{}
+\end{enumerate}
+
+\section*{Estimation error in learning theory}
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+    For a single predictor $h$, since the true risk is simply the expectation of the empirical risk, we can bound it with Hoeffdings inequality.
+    $$P(|R_n(h) - R(h)| \geq \epsilon) \leq 2e^{-2n\epsilon^2}$$
+    The probability that the supremum over all $h\in \mathcal{H}$ deviates by more than $\epsilon$ is the same as $1-P(\text{no h deviates by more than }\epsilon$, therefore we can apply the Union bound over all h.
+    $$P(A_n) \leq 2|\mathcal{H}| e^{-2n\epsilon^2}$$
+
+}
+\item[b)]{
+    We know that:
+    $$P(|R_n(h) - R(h)| \geq \epsilon) \leq 2e^{-2n\epsilon^2}$$
+    Since $\underset{n\rightarrow \infty}{lim} 2e^{-2n\epsilon^2} = 0$, $R_n(h) \rightarrow R(h)$ almost surely .
+}
+\item[c)]{
+    For any $h$ including $h^*$, $|R_n(h)-R(h)| \leq \underset{h\in \mathcal{H}}{sup} |R_n(h)-R(h)|$.
+    Therefore the empirically minimizing $h$ can be at most this far away from its true risk, and the true risk can be at most this far away from the empirical risk of the risk of the true minimizer, yielding the upper bound on the distance:
+    $$|R(H_n) - R(h^*)| \leq 2\underset{h\in \mathcal{H}}{sup} |R_n(h)-R(h)|$$
+    (The absolute value can be omitted since we know $R(h^*)$ to be minimal).
+    Since we know from b) that this distance tends to 0, we conclude that $h_n \rightarrow h^*$ almost surely.
+}
+\item[d)]{
+    If $\mathcal{H}$ is not finite, the bound from b) becomes useless, as $M=2|\mathcal{H}|$ is no longer finite, and the limit of $P(A_n)$ is indeterminate.
+    Without this bound we cannot conclude c).
+  }
+\end{enumerate}
+
+\end{document}
