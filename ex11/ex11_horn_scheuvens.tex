@@ -70,8 +70,29 @@
       However for $\frac{k}{2^h} \leq \omega \leq \frac{k+1}{2^h}$, we still have probability $1$, and thus no convergence a.s.
     }
   \item[b)]{
-
-    }
+ Let $(B, \mathcal{A}, \lambda)$ be a probability space. and $X_n$ a sequence of random variables that satisfies $X_n \to X$ for $n\to \infty$. \\
+ In particular this means that we can select a subsequence $n_k$ such that
+$$
+A_k = \{\omega | \lambda((X_{n_k}(\omega)-X)>\frac{1}{2}^k) \leq \frac{1}{2}^k\}.
+$$Furthermore, we can choose these sets such that $n_k+1> n_k$. 
+In this way we can guarantee that the overall weight of all these sets exists, i.e.: 
+$$
+\sum_{k=0}^\infty \lambda{A_k} \leq \sum_{k=0}^\infty 2^-k \leq \infty. 
+$$
+Then the Borel-Cantelli lemma holds that 
+$$
+\mu(\lim_{k \to \infty} \sup A_k) = 0,
+$$
+and therefore the subsequence $X_{n_k}$ is almost surely convergent to $X$. 
+  }
+  \item[c)]{
+  In the example above we can easily find a subsequence by selecting $X_{n_k} = \mathbb{1}_{[0, \frac{1}{2^h}]}(\omega)$. We can directly see that for this subsequence 
+  $$\sup \{ \omega \in \Omega : |X_{n_k}(\omega)-X(\omega)|>\epsilon\} = [0, \frac{1}{2^k}]$$
+   and thus 
+   $$
+   \mathbb{P}\left(\lim_{n \to \infty} \sup \{ \omega \in \Omega : |X_{n_k}(\omega)-X(\omega)|>\epsilon\}\right) = \mathbb{P}\left(\lim_{n \to \infty} [0, \frac{1}{2^k}]\right)
+= 0.$$
+  }
 \end{enumerate}
 
 \section*{Limit theorems}
@@ -87,8 +108,7 @@
       If $S_i$ is the indicator variable for whether the sock was black, it follows that $(1-S_i) = 1$ if the sock is white, and we find $\mathbb{E} (1-S_i) = 1-\mathbb{E} S_1 = 1-p$.
       Therefore by the same logic $Y_i = \frac{\sum S_i}{\sum 1-S_i}$ converges to its expectation as $n\rightarrow \infty$, yielding $\frac{p}{1-p}$.
     }
-  \item[b)]{}
-  \item[c)]{}
+ 
 \end{enumerate}
 
 \section*{Estimation error in learning theory}
