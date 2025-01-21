@@ -1,0 +1,181 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts, algorithmic, algorithm, graphicx}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage[dvipsnames]{xcolor} 
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{array}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage[thinc]{esdiff}
+
+\renewcommand{\baselinestretch}{1.1}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{8.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{result}[theorem]{Result}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}[theorem]{Assumption}
+\numberwithin{equation}{section}
+
+\def \endprf{\hfill {\vrule height6pt width6pt depth0pt}\medskip}
+\renewenvironment{proof}{\noindent {\bf Proof} }{\endprf\par}
+
+% Notational convenience,
+% real numbers 
+\newcommand{\R}{\mathbb{R}}  
+% Expectation operator
+\DeclareMathOperator*{\E}{\mathbb{E}}
+% Probability operator
+\DeclareMathOperator*{\Prob}{\mathbb{P}}
+\renewcommand{\Pr}{\Prob}
+
+% You may define additional macros here.
+\newcommand{\unita}{\begin{pmatrix} 1\\0\end{pmatrix}}
+\newcommand{\unitb}{\begin{pmatrix} 0\\1\end{pmatrix}}
+\newcommand{\gramint}{\int_{-1}^1}
+\newcommand{\limn}{\underset{n\rightarrow \infty}{lim}}
+\newcommand{\epix}{e^{\pi-x}}
+
+
+\begin{document}
+
+\begin{center}
+    \sc ML 4101: Mathematics for Machine Learning --- Fall 24
+\end{center}
+
+\noindent Friederike Horn \& Bileam Scheuvens
+
+\section*{Multivariate distributions with densities}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+      Marginal densities:
+      $$f_X(x) = \frac{1}{c} \int exp(-2x^2 -y^2 -x^2y^2)dy$$
+      $$= \frac{1}{c} exp(-2x^2) \int exp(-y^2 -x^2y^2)dy$$
+      $$= \frac{1}{c} exp(-2x^2) \int exp(-y^2(1+x^2))dy$$
+      Recognize gaussian integral and apply hint:
+      $$= \frac{1}{c} exp(-2x^2) \sqrt{\frac{\pi}{1+x^2}}$$
+
+      $$f_Y(y) = \frac{1}{c} \int exp(-2x^2 -y^2 -x^2y^2)dx$$
+      $$= \frac{1}{c} exp(-y^2) \int exp(-x^2(2+y^2))dy$$
+      $$= \frac{1}{c} exp(-y^2) \sqrt{\frac{\pi}{2+y^2}}$$
+      Conditional densities:
+      $$f_{X|Y}(x|y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}$$
+      $$f_{X|Y}(x|y) = \frac{1}{c} \frac{c}{1} \frac{exp(-2x^2-y^2-x^2y^2)}{exp(-y^2) \sqrt{\frac{\pi}{2+y^2}}}$$
+      $$f_{X|Y}(x|y) =\sqrt{\frac{2+y^2}{\pi}} \frac{exp(-2x^2-y^2-x^2y^2)}{exp(-y^2) }$$
+      $$f_{X|Y}(x|y) =\sqrt{\frac{2+y^2}{\pi}} exp(-2x^2-x^2y^2)$$
+
+      Analogously for $f_{Y|X}$
+      $$f_{Y|X}(y|x) = \frac{1}{c} \frac{c}{1} \frac{exp(-2x^2-y^2-x^2y^2)}{exp(-2x^2) \sqrt{\frac{\pi}{1+x^2}}}$$
+      $$f_{Y|X}(y|x) =\sqrt{\frac{1+x^2}{\pi}} exp(-y^2-x^2y^2)$$
+    }
+    Ignoring the factor $\sqrt{\frac{1+x^2}{\pi}}$, the conditional densities resemble an unscaled normal distribution. With the example of $F_{Y|X}(y|x)$: 
+    $$exp(-y^2(1+x^2))$$
+    $$=exp(\frac{-y^2}{\frac{1}{1+x^2}})$$
+    $$=exp(\frac{-(y-0)^2}{2\frac{1}{2(1+x^2)}})$$
+    Now that we know the variance, it becomes obvious that the scaling factor:
+    $$\frac{1}{\sqrt{2\pi \frac{1}{2(1+x^2)}}}$$
+    $$=\frac{1}{\sqrt{\frac{\pi}{1+x^2}}}$$
+    $$=\sqrt{\frac{1+x^2}{\pi}}$$
+    Thus we are left with $\mathcal{N}(0, \frac{1}{2(1+x^2)})$.
+
+  \item[b)]{
+      Bayes Formula (ommitting function arguments for convenience):
+      $$f_{X,Y} = f_{Y|X} f_X = f_{X|Y} f_Y$$
+      Divide by $f_X$:
+      $$f_{Y|X} = \frac{f_{X|Y}f_Y}{f_X}$$
+      Law of total probability:
+      $$f_Y = \int f_{X,Y} dx$$
+      Again since $f_{X,Y} = f_{Y|X} f_X = f_{X|Y} f_Y$:
+      $$f_Y = \int f_{Y|X} f_X dx$$
+
+  }
+\end{enumerate}
+
+\section*{Conditional Expectation}
+
+\subsection*{Solution}
+\begin{enumerate}
+  \item[a)]{
+      We know:
+      $$E(X|Y=y) = \sum_x x P(X=x|Y=y)$$
+      and by the law of total probability:
+      $$E(X) = \sum_y \sum_x x P(X=x, Y=y)$$
+      Which can be rewritten as conditional probability:
+      $$= \sum_y \sum_x x P(X=x|Y=y) P(Y=y)$$
+      Here we recognize the conditional expectation in the expression:
+      $$= \sum_y E(X|Y=y) P(Y=y)$$
+      Which is nothing else as:
+      $$= E E(X|Y)$$
+    }
+  \item[b)]{
+    }
+  \item[c)]{
+    }
+ 
+\end{enumerate}
+
+\section*{Unbiased estimators are not always useful}
+\subsection*{Solution}
+
+\begin{enumerate}
+\item[a)]{
+    Unbiased $\Leftrightarrow E(U(x)) = \theta$
+    $$P(X=k) = \frac{(-0.5 log \theta)^k}{k!} exp(0.5 log \theta)$$
+    $$E(U) = \sum_k U(k)P(X=k)$$
+    $$ = exp(0.5 log \theta) \sum_k (-1)^k \frac{(-0.5 log \theta)^k}{k!}$$
+    The factor $(-1)^k$ removes the sign of the fraction, which simultaneously proves that there cannot be another unbiased estimator, as it would have to have the same effect. According to the hint that would imply equality.
+    $$ = exp(0.5 log \theta) \sum_k \frac{(0.5 log \theta)^k}{k!}$$
+    $$ = exp(0.5 log \theta) exp(0.5 log \theta) $$
+    $$ = exp(log \theta)$$
+    $$ = \theta$$
+}
+\item[b)]{
+    $$ MSE(U) = Var(U) + Bias(U)^2$$
+    Since we know $Bias = 0$ from a):
+    $$= Var(U)$$
+    $$= E(U^2) - E(U)^2$$
+    $$\sum_k (-1)^{2k} P(X=k) - \theta^2$$
+    $$ 1 - \theta^2$$
+}
+\item[c)]{
+    $$E(V) = exp(0.5log\theta) \sum_k \mathbbm{1}_{2\mathbb{N}_0}(k) \frac{(-0.5log\theta)^k}{k!}$$
+    $$E(V) = exp(0.5log\theta) \sum_k \frac{(-0.5log\theta)^{2k}}{2k!}$$
+    $$E(V) = exp(0.5log\theta) cosh(-0.5log\theta)$$
+    This simplifies to:
+    $$= 0.5(\theta + 1)$$
+    Since squaring an indicator is a no-op:
+    $$E(V^2) = E(V)$$
+    $$Var(V) = 0.5(\theta +1) - 0.25(\theta+1)^2$$
+    $$= 0.25(1-\theta^2)$$
+    Finally:
+    $$MSE(V) = 0.25(1-\theta^2) + (0.5(\theta + 1) - \theta)^2$$
+    $$MSE(V) = 0.25(1-\theta^2) + (-0.5\theta + 0.5)^2$$
+    $$= 0.25-0.25\theta^2 + 0.25-0.5\theta+0.25\theta$$
+    $$= -\frac{\theta^2}{4} - \frac{\theta}{4} + \frac{1}{2}$$
+    To show that this is less than $MSE(V, \theta)$ consider:
+    $$(1-\theta^2) - (0.5-0.25\theta^2-0.25\theta)$$
+    $$= 0.5 - 0.75\theta^2 + 0.25\theta$$
+    which is positive in (0,1), concluding the proof.
+}
+\end{enumerate}
+
+\section*{Consistency}
+We know that $\hat{t} = t$ iff $t \in X_1, ... X_n$. 
+Since $\underset{n\rightarrow \infty}{lim} P(t \in X_1, ... X_n) = 1$, it follow that $P(\hat{t} = t) = 1$ and the estimator is strongly consistent.
+
+\end{document}
