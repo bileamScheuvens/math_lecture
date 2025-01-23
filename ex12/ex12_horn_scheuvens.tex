@@ -175,7 +175,20 @@
 \end{enumerate}
 
 \section*{Consistency}
-We know that $\hat{t} = t$ iff $t \in X_1, ... X_n$. 
-Since $\underset{n\rightarrow \infty}{lim} P(t \in X_1, ... X_n) = 1$, it follow that $P(\hat{t} = t) = 1$ and the estimator is strongly consistent.
+\begin{enumerate}
+Assume a statistical model of $\mathcal{F}_t = \{\text{Unif}([0, t])|t \in (0, \infty)\}$ and independent samples $X_1, ..., X_n.$. 
+Let the estimator be $\hat{t}_n = \max_{i=1, ..., n}X_n$. 
+\\
+As we can assume uniform distribution the probability $\mathbb{P} (|t_n-t|> \epsilon) = (\frac{t-\epsilon}{t})^n$ as we draw $n$ times from $[0, t-\epsilon]$. We now use the Borel-Cantonelli theorem and $\frac{t-\epsilon}{t}<1$ to find:
+$$
+\sum_{n=0}^\infty \mathbb{P}(|t_n-t|> \epsilon) = \sum_{n=0}^\infty \left(\frac{t-\epsilon}{t}\right)^n < \infty,
+$$ which follows from the convergence of the geometric series for all $\epsilon > 0$. 
+From Borel-Cantonelli it follows that 
+$$
+\mathbb{P} (\lim_{n \to \infty} \sup |t_n-t|> \epsilon) = 0.
+$$
+Therefore, $t_n$ almost surely converges to $t$ and thus the estimator is strongly consistent. 
+\end{enumerate}
+
 
 \end{document}
